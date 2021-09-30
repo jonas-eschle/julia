@@ -60,6 +60,12 @@ USE_SYSTEM_P7ZIP:=0
 # Link to the LLVM shared library
 USE_LLVM_SHLIB := 1
 
+# Use the LLVM upstream git repository instead of https://github.com/JuliaLang/llvm-project
+# WARNING: Only use this for development.
+# NOTE: Only applies if LLVM_VER=svn
+# TODO: Switch this to default off when LLVM 13 is landed.
+USE_LLVM_UPSTREAM := 1
+
 # Enable threading with one thread
 JULIA_THREADS := 1
 

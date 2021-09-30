@@ -2,7 +2,11 @@
 include $(SRCDIR)/llvm-ver.make
 
 ifneq ($(USE_BINARYBUILDER_LLVM), 1)
+ifeq ($(USE_UPSTREAM_LLVM), 1)
 LLVM_GIT_URL ?= https://github.com/llvm/llvm-project.git
+else
+LLVM_GIT_URL ?= https://github.com/JuliaLang/llvm-project.git
+end
 
 ifeq ($(BUILD_LLDB), 1)
 BUILD_LLVM_CLANG := 1
@@ -457,6 +461,7 @@ $$(LLVM_BUILDDIR_withtype)/build-compiled: $$(LLVM_SRC_DIR)/$1.patch-applied
 LLVM_PATCH_PREV := $$(LLVM_SRC_DIR)/$1.patch-applied
 endef
 
+ifeq ($(USE_LLVM_UPSTREAM), 1)
 ifeq ($(LLVM_VER_SHORT),11.0)
 ifeq ($(LLVM_VER_PATCH), 0)
 $(eval $(call LLVM_PATCH,llvm-D27629-AArch64-large_model_6.0.1)) # remove for LLVM 12
@@ -531,6 +536,7 @@ $(eval $(call LLVM_PATCH,llvm-11-D94813-mergeicmps)) # remove for LLVM 14
 $(eval $(call LLVM_PATCH,llvm-13-AArch64-FastIsel-bug))
 $(eval $(call LLVM_PATCH,llvm-13-D97435-AArch64-movaddrreg))
 endif # LLVM_VER 13.0
+endif # USE_LLVM_UPSTREAM
 
 # Add a JL prefix to the version map. DO NOT REMOVE
 ifneq ($(LLVM_VER), svn)
